@@ -14,16 +14,12 @@ object User {
     // manual change required by user
     import sbtcross.AutoImports.crossProject // shadowing scalajs crossProject
 
-    // crossProject => runtime error with migration messge
+    crossProject // => deprecation warning & runtime error with migration messge
 
-    
-
-
-    new JsExtensions(crossProject(JVMPlatform)
+    crossProject(JVMPlatform)
       .settings("b" -> "2")
       .jvmSettings("a" -> "1")
-    ).jsSettings("a" -> "1")
-
-      // .nativeSettings()
+      .jsSettings("a" -> "1")
+      .nativeSettings("b" -> "2")
   }
 }
