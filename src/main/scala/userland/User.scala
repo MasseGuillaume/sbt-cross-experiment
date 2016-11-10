@@ -15,6 +15,9 @@ object User {
     import sbtcross.AutoImports.crossProject // shadowing scalajs crossProject
 
     crossProject // => deprecation warning & runtime error with migration messge
+      .settings("b" -> "2")
+      .jvmSettings("a" -> "1")
+      .jsSettings("a" -> "1")
 
     crossProject(JVMPlatform)
       .settings("b" -> "2")
