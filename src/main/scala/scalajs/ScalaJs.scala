@@ -34,7 +34,6 @@ object AutoImports {
     val full: CrossVersion = scalaJSMapped(CrossVersion.full)
   }
 
-
   object ScalaJSGroupID {
     def withCross(groupID: ScalaJSGroupID, artifactID: String, cross: CrossVersion): CrossGroupArtifactID = {
       new CrossGroupArtifactID(groupID.groupID, artifactID, cross)

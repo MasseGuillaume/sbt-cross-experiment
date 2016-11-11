@@ -1,9 +1,14 @@
 package scalanative
 
+import sbt._
 import sbtcross.AutoImports._
-case object Native extends Platform
+
 object AutoImports {
+  case object NativePlatform extends Platform
   implicit class NativeExtensions(project: CrossProject) {
-    def nativeSettings(settings: (String, String)*): CrossProject = project
+    def nativeSettings(xs: SettingsDelta*): CrossProject = {
+      require(project.platforms.contains(NativePlatform))
+      project
+    }
   }
 }
