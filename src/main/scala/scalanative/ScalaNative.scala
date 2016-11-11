@@ -1,7 +1,7 @@
 package scalanative
 
 import sbt._
-import sbtcross.AutoImports._
+import sbtcross._
 
 object AutoImports {
   case object NativePlatform extends Platform

@@ -3,8 +3,16 @@ package scalajs
 import sbt._
 import scala.language.implicitConversions
 
+final class CrossProject private[scalajs]() {
+  def jsSettings[T](v: T): CrossProject = this
+  def jvmSettings[T](v: T): CrossProject = this
+  def settings[T](v: T): CrossProject = this
+}
+
 object AutoImports {
-  def crossProject: Any = sys.error("muah")
+
+  def crossProject: CrossProject = new CrossProject()
+
   final implicit def toScalaJSGroupID(groupID: String): ScalaJSGroupID = new ScalaJSGroupID(groupID)
   final class CrossGroupArtifactID(groupID: String, artifactID: String, crossVersion: CrossVersion) {
     def %(revision: String): ModuleID = {
