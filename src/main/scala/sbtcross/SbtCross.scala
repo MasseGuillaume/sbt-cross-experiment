@@ -6,16 +6,16 @@ object AutoImports {
   trait Platform
   case object JVMPlatform extends Platform
   object CrossProject {
-    def apply(platforms: Set[Platform]): CrossProject = CrossProject(platforms)
+    def apply(platforms: Set[Platform]): CrossProject = new CrossProject(platforms)
   }
   case class CrossProject private [sbtcross](
     val platforms: Set[Platform],
-    private val crossSettings: Seq[SettingsDelta],
-    private val platformsSettings: Map[Platform, Seq[SettingsDelta]]) {
+    private val crossSettings: Seq[SettingsDelta] = Seq(),
+    private val platformsSettings: Map[Platform, Seq[SettingsDelta]] = Map()) {
 
     def settings(settings: SettingsDelta*): CrossProject = copy(crossSettings = settings.toSeq)
     def build: List[Project] = {
-      
+
       platforms.foldLeft(List.empty[Project]){ case (projects, platform) =>
         val newProject = Project()
         val crossAppliedProject = newProject(crossSettings)

@@ -34,11 +34,10 @@ object User {
     //   .jsSettings("a" -> "1")
     //   .nativeSettings("b" -> "2")
 
-    val p =
-        crossProject(JSPlatform, JVMPlatform, NativePlatform) // [E] the user specifies the targets
-          // .settings(libraryDependencies += "a" %%% "b" % "c") 
-          // .build
-
-    println(p)
+    println(
+      crossProject(JSPlatform, JVMPlatform, NativePlatform) // [E] the user specifies the targets
+        .settings(libraryDependencies += "a" %%% "b" % "c") 
+        .build
+    )
   }
 }
