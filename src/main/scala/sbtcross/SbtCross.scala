@@ -1,6 +1,7 @@
 package sbtcross
 
 import sbt._
+import scala.language.implicitConversions
 
 object AutoImports {   
   trait Platform
@@ -42,4 +43,59 @@ object AutoImports {
       project
     }
   }
+  
+  @deprecated("use %%", "now")
+  final implicit def toScalaJSGroupID(groupID: String) = 
+    new DeprecatedScalaJSGroupID(groupID)
+
+  final class DeprecatedScalaJSGroupID private[sbtcross] (private val groupID: String) {
+    def %%%(artifactID: String): GroupArtifactID = f(artifactID)
+    def %%%!(artifactID: String): GroupArtifactID = f(artifactID)
+    private def f(artifactID: String) = new GroupArtifactID(groupID, artifactID, CrossVersion.binary)
+  }
+
+  final class GroupArtifactID private[sbtcross] (
+    private[sbtcross] val groupID: String,
+    private[sbtcross] val artifactID: String,
+    private[sbtcross] val crossVersion: CrossVersion) {
+      def %(revision: String): ModuleID =
+      ModuleID(groupID, artifactID, revision).cross(crossVersion)
+  }
+
+
+  // final implicit def toCrossGroupID(groupID: String): CrossGroupID = 
+  //   new CrossGroupID(groupID)
+
+  // final class CrossModuleID(
+  //   organization: String,
+  //   name: String,
+  //   revision: String,
+  //   crossVersion: CrossVersion = Disabled) {
+
+  //   def cross(v: CrossVersion): CrossModuleID = copy(crossVersion = v)
+  //   def apply(platform: Platform): ModuleID = ???
+  // }
+
+
+  // final class CrossGroupArtifactID(groupID: String, artifactID: String, crossVersion: CrossVersion) {
+  //   def %(revision: String): ModuleID = {
+  //     ModuleID(groupID, artifactID, revision).cross(crossVersion)
+  //   }
+  // }
+
+  // final class CrossGroupID private[scalajs] (private val groupID: String) {
+  //   def %%(artifactID: String): CrossGroupArtifactID = {
+  //     // val cross =
+  //     //   if(true) CrossCrossVersion.binary
+  //     //   else CrossVersion.binary
+
+  //     CrossGroupID.withCross(groupID, artifactID, cross)
+  //   }
+  // }
+
+  // object CrossGroupID {
+  //   def withCross(groupID: CrossGroupID, artifactID: String, cross: CrossVersion): CrossGroupArtifactID = {
+  //     new CrossGroupArtifactID(groupID.groupID, artifactID, cross)
+  //   }
+  // }
 }
