@@ -15,6 +15,6 @@ object CrossVersion {
   private[this] def idFun[T]: T => T = x => x
   def full: CrossVersion = new Full(idFun)
   def fullMapped(remapVersion: String => String): CrossVersion = new Full(remapVersion)
-  def binary: CrossVersion = new Binary(idFun)
+  def binary: CrossVersion = new Binary(x => x + "_2.12")
   def binaryMapped(remapVersion: String => String): CrossVersion = new Binary(remapVersion)
 }

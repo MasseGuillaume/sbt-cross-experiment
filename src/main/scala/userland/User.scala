@@ -21,7 +21,7 @@ object User {
 
     // user build
     // import sbtcross.AutoImports.{crossProject, toScalaJSGroupID} // [D] shadowing scalajs crossProject
-    import sbtcross.AutoImports.crossProject
+    import sbtcross.AutoImports.{crossProject, toScalaJSGroupID}
 
     // crossProject // => deprecation warning & runtime error with migration messge
     //   .settings("b" -> "2")
@@ -36,7 +36,7 @@ object User {
 
     println(
       crossProject(JSPlatform, JVMPlatform, NativePlatform) // [E] the user specifies the targets
-        .settings(libraryDependencies += "a" %%% "b" % "c") 
+        .settings(libraryDependencies += "org.example" %%% "foo-bar" % "0.1.0")
         .build
     )
   }

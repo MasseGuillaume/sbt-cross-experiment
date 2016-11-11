@@ -17,17 +17,16 @@ object AutoImports {
       _ => s"sjs$currentBinaryVersion"
 
     private val scalaJSVersionMap: String => String =
-      version => s"sjs${currentBinaryVersion}_$version"
+      version => s"${version}_sjs${currentBinaryVersion}"
 
     val currentBinaryVersion = "0.6"
-
     def scalaJSMapped(cross: CrossVersion): CrossVersion = cross match {
       case CrossVersion.Disabled =>
         CrossVersion.binaryMapped(scalaJSVersionUnmapped)
       case cross: CrossVersion.Binary =>
-        CrossVersion.binaryMapped(cross.remapVersion andThen scalaJSVersionMap)
+        CrossVersion.binaryMapped(scalaJSVersionMap andThen cross.remapVersion)
       case cross: CrossVersion.Full =>
-        CrossVersion.fullMapped(cross.remapVersion andThen scalaJSVersionMap)
+        CrossVersion.fullMapped(scalaJSVersionMap andThen cross.remapVersion)
     }
 
     val binary: CrossVersion = scalaJSMapped(CrossVersion.binary)

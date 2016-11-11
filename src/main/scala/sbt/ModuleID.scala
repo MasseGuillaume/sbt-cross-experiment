@@ -16,6 +16,6 @@ case class ModuleID(
         case Binary(f) => f(name)
         case Full(f)   => f(name)
       }
-    s"$organization % $artifact % $revision"
+    s"$organization $artifact $revision"
   }
 }
